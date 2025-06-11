@@ -24,8 +24,6 @@ function App() {
       headers: {
         'X-Api-Key': APP_KEY,
       },
-     
-    
     });
 
     if (response.ok) {
