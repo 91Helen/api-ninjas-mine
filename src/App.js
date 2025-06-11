@@ -14,6 +14,8 @@ function App() {
   const APP_KEY = 'VgwZGA7OKurpIYShchcQSg==I2aDA2RFhmny24ia';
   const APP_URL = 'https://api.api-ninjas.com/v1/nutrition';
 
+  //https://api.api-ninjas.com/v1/nutrition?query=VgwZGA7OKurpIYShchcQSg==I2aDA2RFhmny24ia
+
   const fetchData = async () => {
     setStateLoader(true);
 
@@ -30,6 +32,7 @@ function App() {
       setStateLoader(false);
       const data = await response.json();
       setMyNutrition(data);
+      console.log(data)
     } else {
       setStateLoader(false);
       alert('ingredients entered incorrectly');
@@ -67,8 +70,8 @@ function App() {
       <div>
         {myNutrition &&
           Object.entries(myNutrition[0])
-            .map(([key, value]) =>
-              <Nutrition
+            .map(([key, value, id]) =>
+              <Nutrition key={id}
                 label={key}
                 quantity={value}
               />
