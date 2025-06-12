@@ -68,8 +68,8 @@ function App() {
       <div>
         {myNutrition &&
           Object.entries(myNutrition[0])
-            .map(([key, value, id]) =>
-              <Nutrition key={id}
+            .map(([key, value]) =>
+              <Nutrition key={key}
                 label={key}
                 quantity={value}
               />
