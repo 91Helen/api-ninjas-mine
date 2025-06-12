@@ -1,6 +1,6 @@
-export const Nutrition = ({ label, quantity, id}) => {
+export const Nutrition = ({ label, quantity}) => {
     return (
-        <div key={id}>
+        <div>
             <p ><b>{label}</b> - {quantity}</p>
         </div>
     )
