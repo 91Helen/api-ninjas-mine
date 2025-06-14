@@ -1,7 +1,14 @@
-export const Nutrition = ({ label, quantity}) => {
-    return (
-        <div>
-            <p ><b>{label}</b> - {quantity}</p>
-        </div>
-    )
-}
+export const Nutrition = ({ label, quantity }) => {
+  return (
+    <tr>
+      <td>{label}</td>
+      <td>{quantity}</td>
+    </tr>
+  );
+};
+
+
+
+
+
+
