@@ -26,7 +26,7 @@ if (response.ok) {
 setStateLoader(false);
 const data = await response.json();
 setMyNutrition(data);
-console.log(data)
+
 } else {
 setStateLoader(false);
 alert('ingredients entered incorrectly');
