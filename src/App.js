@@ -61,28 +61,31 @@ return (
    <LoaderPage />
    }
 
-   <div>
+
       <form onSubmit={finalSearch} className='container'>
          <input
             placeholder="Search..."
             onChange={myRecipeSearch}
             className='search'
             />
-         <button type="submit" className='buttonSearch'>Search</button>
+        <div className="button-wrapper">
+    <button type="submit" className="buttonSearch">Search</button>
+  </div>
       </form>
-   </div>
    
+
    <div>
       {myNutrition && (
-      <table  cellPadding="15">
-         <tbody>
-            {Object.entries(myNutrition[0]).map(([key, value]) => (
-            <Nutrition key={key}
-               label={key}
-               quantity={value}/>
-            ))}
-         </tbody>
-      </table>
+      <div style={{ overflowX: 'auto' }}>
+  <table cellPadding="15">
+    <tbody>
+      {Object.entries(myNutrition[0]).map(([key, value]) => (
+        <Nutrition key={key} 
+        label={key} quantity={value} />
+      ))}
+    </tbody>
+  </table>
+</div>
       )}
    </div>
 </div>
