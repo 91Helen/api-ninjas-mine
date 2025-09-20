@@ -1,94 +1,94 @@
 import './App.css';
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from 'react';
 import { Nutrition } from "./Nutrition";
 import { LoaderPage } from "./LoaderPage";
 import video from './cooking-animation.mp4';
 
 function App() {
-const [mySearch, setMySearch] = useState('');
-const [wordSubmitted, setWordSubmitted] = useState('');
-const [myNutrition, setMyNutrition] = useState();
-const [stateLoader, setStateLoader] = useState(false);
-const APP_KEY = 'VgwZGA7OKurpIYShchcQSg==I2aDA2RFhmny24ia';
-const APP_URL = 'https://api.api-ninjas.com/v1/nutrition';
-//https://api.api-ninjas.com/v1/nutrition?query=VgwZGA7OKurpIYShchcQSg==I2aDA2RFhmny24ia
+  const [mySearch, setMySearch] = useState('');
+  const [wordSubmitted, setWordSubmitted] = useState('');
+  const [myNutrition, setMyNutrition] = useState();
+  const [stateLoader, setStateLoader] = useState(false);
 
-const fetchData = async () => {
-setStateLoader(true);
-const response = await fetch(`${APP_URL}?query=${mySearch}`, {
-method: "GET",
-headers: {
-'X-Api-Key': APP_KEY,
-},
-});
-if (response.ok) {
-setStateLoader(false);
-const data = await response.json();
-setMyNutrition(data);
+  const APP_KEY = 'VgwZGA7OKurpIYShchcQSg==I2aDA2RFhmny24ia';
+  const APP_URL = 'https://api.api-ninjas.com/v1/nutrition';
 
-} else {
-setStateLoader(false);
-alert('ingredients entered incorrectly');
-}
-}
+ 
+  const fetchData = useCallback(async (query) => {
+    setStateLoader(true);
+    const response = await fetch(`${APP_URL}?query=${query}`, {
+      method: "GET",
+      headers: {
+        'X-Api-Key': APP_KEY,
+      },
+    });
 
-const myRecipeSearch = e => {
-setMySearch(e.target.value);
-}
+    if (response.ok) {
+      const data = await response.json();
+      setMyNutrition(data);
+    } else {
+      alert('Ingredients entered incorrectly');
+    }
+    setStateLoader(false);
+  }, [APP_KEY, APP_URL]); 
 
-const finalSearch = e => {
-e.preventDefault();
-setWordSubmitted(mySearch);
-}
+  const myRecipeSearch = e => {
+    setMySearch(e.target.value);
+  };
 
-useEffect(() => {
-if (mySearch.trim() !== "") {
-fetchData(mySearch);
-}
-}, [wordSubmitted])
+  const finalSearch = e => {
+    e.preventDefault();
+    setWordSubmitted(mySearch);
+  };
 
-return (
-<div className="App">
-   <div className='heading'>
-      <video autoPlay muted loop>
-         <source src={video} type="video/mp4"/>
-      </video>
-      <h1>Nutrition Analysis</h1>
+  
+  useEffect(() => {
+    if (wordSubmitted.trim() !== "") {
+      fetchData(wordSubmitted);
+    }
+  }, [wordSubmitted, fetchData]);
 
-   </div>
-   {stateLoader && 
-   <LoaderPage />
-   }
+  return (
+    <div className="App">
+      <div className='heading'>
+        <video autoPlay muted loop>
+          <source src={video} type="video/mp4"/>
+        </video>
+        <h1>Nutrition Analysis</h1>
+      </div>
 
+      {stateLoader && <LoaderPage />}
 
-      <form onSubmit={finalSearch} className='container'>
-         <input
-            placeholder="Search..."
-            onChange={myRecipeSearch}
-            className='search'
-            />
+      <form onSubmit={finalSearch} className='form'>
+        <input
+          placeholder="Type fruit's or vegetable's name here..."
+          onChange={myRecipeSearch}
+          className='search'
+        />
         <div className="button-wrapper">
-    <button type="submit" className="buttonSearch">Search</button>
-  </div>
+          <button type="submit" className="buttonSearch">Search</button>
+        </div>
       </form>
-   
 
-   <div>
-      {myNutrition && (
-      <div style={{ overflowX: 'auto' }}>
-  <table cellPadding="15">
-    <tbody>
-      {Object.entries(myNutrition[0]).map(([key, value]) => (
-        <Nutrition key={key} 
-        label={key} quantity={value} />
-      ))}
-    </tbody>
-  </table>
-</div>
-      )}
-   </div>
-</div>
-);
+      <div>
+        {myNutrition && (
+          <div style={{ overflowX: 'auto' }}>
+            <table cellPadding="15">
+              <tbody>
+                {Object.entries(myNutrition[0]).map(([key, value]) => (
+                  <Nutrition
+                    key={key}
+                    label={key}
+                    quantity={value}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
+
 export default App;
