@@ -72,6 +72,7 @@ h1 {
 
 .buttonSearch:hover {
   background-color: rgba(61, 237, 216, 0.1);
+  color:white;
 }
 
 .heading {
